@@ -1,6 +1,9 @@
 # Drowsiness Detection Face Extractor
 
-This Python script automates the process of creating a facial image dataset for training drowsiness detection models. It processes video files, analyzes frames for drowsiness cues using MediaPipe Face Mesh, and saves cropped face images classified as either "awake" or "drowsy".
+![License](https://img.shields.io/github/license/jodave911/Drowsiness-Detection-Face-Extractor)
+![Python Version](https://img.shields.io/badge/python-3.7+-blue.svg)
+
+This project provides a powerful tool for building custom datasets for machine learning-based drowsiness detection. The script processes video files, leveraging Google's MediaPipe Face Mesh for high-fidelity facial landmark detection. It analyzes each frame to calculate key drowsiness indicators, including Eye Aspect Ratio (EAR) for eye closure, Mouth Aspect Ratio (MAR) for yawning, and 3D head pose for nodding. Based on configurable thresholds, it automatically classifies faces as "awake" or "drowsy," crops them from the frame, and saves them into organized folders, streamlining the data collection pipeline.
 
 ## Features
 
@@ -17,61 +20,69 @@ This Python script automates the process of creating a facial image dataset for 
 
 The script iterates through video frames and performs the following steps for each:
 
-1.  **Face Landmark Detection:** It uses the MediaPipe Face Mesh model to detect 478 facial landmarks in high detail.
-2.  **Head Pose Estimation:** Using a 3D model of a face and key landmarks (nose, chin, eyes, mouth corners), it calculates the head's pitch, yaw, and roll angles via OpenCV's `solvePnP` function.
-3.  **Yawn Detection:** It calculates the Mouth Aspect Ratio (MAR) by measuring the distance between vertical and horizontal mouth landmarks. A high MAR value suggests a yawn.
-4.  **Eye Closure Detection:** It calculates the Eye Aspect Ratio (EAR) for both eyes. A low EAR value indicates that the eyes are closed.
-5.  **Classification & Saving:**
-    -   If any of the drowsiness metrics (high yaw, high pitch, high MAR, low EAR) exceed their predefined thresholds, the frame is flagged as "drowsy".
-    -   The script crops the bounding box of the detected face, adds padding, and saves the image to the `drowsy` or `awake` folder.
-    -   Filenames are descriptive, including the class, a unique ID, and the reason for the classification (e.g., `drowsy_000123_yaw=35.1_closed_eyes_EAR=0.19.jpg`).
-
-## Prerequisites
-
--   Python 3.7+
--   OpenCV
--   NumPy
--   MediaPipe
+1.  **Face Landmark Detection:** It uses the MediaPipe Face Mesh model to detect 478 facial landmarks.
+2.  **Head Pose Estimation:** It calculates the head's pitch, yaw, and roll angles using OpenCV's `solvePnP` function.
+3.  **Yawn & Eye Closure Detection:** It calculates the Mouth Aspect Ratio (MAR) and Eye Aspect Ratio (EAR) to detect signs of fatigue.
+4.  **Classification & Saving:** Based on a set of predefined thresholds, the frame is flagged as "drowsy" or "awake." The script then crops the detected face and saves it to the corresponding labeled folder.
 
 ## Installation
 
 1.  **Clone the repository:**
     ```bash
     git clone [https://github.com/jodave911/Drowsiness-Detection-Face-Extractor.git](https://github.com/jodave911/Drowsiness-Detection-Face-Extractor.git)
-    cd your-repository-name
+    cd Drowsiness-Detection-Face-Extractor
     ```
 
-2.  **Install the required packages:**
-    It's highly recommended to use a virtual environment.
+2.  **Create a virtual environment (recommended):**
+    ```bash
+    python -m venv venv
+    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+    ```
+
+3.  **Install the required packages:**
     ```bash
     pip install -r requirements.txt
     ```
 
 ## Usage
 
-1.  **Place your videos:** Create a folder (e.g., `downloads`) and place all your source video files (`.mp4`, `.mov`, `.avi`, etc.) inside it.
+1.  **Place your videos:** Create a folder (e.g., `downloads` by default) and place your source video files (`.mp4`, `.mov`, etc.) inside it.
 
-2.  **Configure the script:** Open `face_extractor.py` and modify the parameters in the `Configuration` section as needed:
-    ```python
-    # Input: Folder containing videos
-    video_folder = "downloads"
-
-    # Output base directory
-    output_base = "extracted_faces_drowsy"
-
-    # Drowsiness thresholds
-    yaw_threshold = 30
-    pitch_down_threshold = 15
-    mouth_aspect_ratio_threshold = 0.75
-    eye_aspect_ratio_threshold = 0.25
-    ```
+2.  **Configure the script:** Open `face_extractor.py` and modify the parameters in the `SCRIPT CONFIGURATION` section as needed.
 
 3.  **Run the script:**
     ```bash
     python face_extractor.py
     ```
 
-4.  **Check the output:** The script will create the output directory (e.g., `extracted_faces_drowsy`) with two subfolders: `awake` and `drowsy`, populated with the cropped face images. The console will log the progress.
+4.  **Check the output:** The script will create the output directory (e.g., `extracted_faces_drowsy`) with two subfolders, `awake` and `drowsy`, populated with the cropped face images. Progress will be logged to the console.
+
+## Project Purpose & Status
+
+The primary goal of this project is to provide a fast and simple tool for creating facial image datasets for drowsiness detection. It is designed to process publicly available videos and automatically extract and label faces based on heuristic cues, significantly speeding up the data collection phase for machine learning projects.
+
+### Current Accuracy
+
+The current implementation uses a **heuristic-based approach**, relying on fixed thresholds for Eye Aspect Ratio (EAR), Mouth Aspect Ratio (MAR), and head pose angles.
+
+-   **Effectiveness:** This method is effective for generating a large, baseline dataset quickly. It successfully identifies obvious drowsiness events like yawning, significant head nods, and prolonged eye closure.
+-   **Limitations:** The accuracy is considered **functional but not robust**. Since it relies on static thresholds, its performance can vary based on video quality, lighting, camera angle, and individual differences in facial structure. It is not designed to be a high-precision, real-time detection system in its current state, but rather an efficient data extraction tool.
+
+## Future Improvements (TODO)
+
+The following is a list of planned improvements to enhance the robustness and accuracy of the detection and classification logic.
+
+-   [ ] **Improve Face Detection with a YOLO Model:**
+    -   While MediaPipe is effective, integrating a dedicated face detector like **YOLOv8** or **RetinaFace** could improve the initial detection rate, especially for non-frontal faces or in challenging lighting.
+
+-   [ ] **Replace Heuristics with a Machine Learning Classifier:**
+    -   The next major step is to replace the threshold-based logic with a trained ML model (e.g., SVM, Gradient Boosting, or a small neural network). This model would use the calculated EAR, MAR, and pose angles as input features to provide a more nuanced classification.
+
+-   [ ] **Train an End-to-End Deep Learning Model:**
+    -   For maximum performance, the final goal is to train an end-to-end CNN model that takes the cropped face image as direct input and outputs a drowsiness probability.
+
+-   [ ] **Add Configuration File:**
+    -   Move all hard-coded parameters into an external configuration file (e.g., `config.yaml`) for easier tuning without modifying the source code.
 
 ## Acknowledgements
 
@@ -83,4 +94,6 @@ The core logic of this script was developed by the author. To improve maintainab
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE) / [GPLv3 License](LICENSE). See the `LICENSE` file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+Copyright (c) 2025, jodave911
