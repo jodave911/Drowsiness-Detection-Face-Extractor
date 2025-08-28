@@ -37,7 +37,7 @@ The script iterates through video frames and performs the following steps for ea
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/your-username/your-repository-name.git](https://github.com/your-username/your-repository-name.git)
+    git clone [https://github.com/jodave911/Drowsiness-Detection-Face-Extractor.git](https://github.com/jodave911/Drowsiness-Detection-Face-Extractor.git)
     cd your-repository-name
     ```
 
