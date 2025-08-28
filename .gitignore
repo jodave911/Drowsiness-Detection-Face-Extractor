@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+pip-selfcheck.json
+
+# IDE / Editor specific
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Data files - IMPORTANT
+# Do not commit the input videos or the extracted face images
+downloads/
+extracted_faces_drowsy/
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.wmv
+*.webm
