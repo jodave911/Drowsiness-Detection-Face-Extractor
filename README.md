@@ -73,6 +73,14 @@ The script iterates through video frames and performs the following steps for ea
 
 4.  **Check the output:** The script will create the output directory (e.g., `extracted_faces_drowsy`) with two subfolders: `awake` and `drowsy`, populated with the cropped face images. The console will log the progress.
 
+## Acknowledgements
+
+The core logic of this script was developed by the author. To improve maintainability and readability, Google's Gemini was utilized for the following enhancements:
+
+-   Refactoring the code structure into logical sections.
+-   Adding comprehensive docstrings and type hints.
+-   Applying Python (PEP 8) conventions and best practices.
+
 ## License
 
 This project is licensed under the [MIT License](LICENSE) / [GPLv3 License](LICENSE). See the `LICENSE` file for details.
