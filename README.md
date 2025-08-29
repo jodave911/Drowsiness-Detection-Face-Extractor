@@ -14,7 +14,7 @@ This project provides a powerful tool for building custom datasets for machine l
     -   **Mouth Aspect Ratio (MAR):** Detects yawning.
 -   **Robust Classification:** Uses a smoothing buffer to reduce frame-by-frame classification noise.
 -   **Automatic Resuming:** Intelligently finds the last saved image number to avoid overwriting files when re-running the script.
--   **Configurable:** Easily adjust thresholds, file paths, and processing parameters at the top of the script
+-   **Configurable:** Easily adjust thresholds, file paths, and processing parameters at the top of the script.
 
 ## How It Works
 
