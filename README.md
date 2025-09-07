@@ -96,4 +96,4 @@ The core logic of this script was developed by the author. To improve maintainab
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-Copyright (c) 2025, jodave911
+Copyright (c) 2025, Joshua David
